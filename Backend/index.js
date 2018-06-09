@@ -30,6 +30,14 @@ app.get('/*', (request, response) => {
     console.log("----------------------------------------");
     console.log("GET");
     console.log("Url: " + request.url);
+
+    if(request.url === "/getstylefile") {
+        console.log("Send CSS file");
+        response.status(200);
+        response.sendfile("myfile.css");
+        return;
+    }
+
     const s = request.url.split("?")[1];
     const arr = s.split("&");
     let summa = 0;
