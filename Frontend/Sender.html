@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Отправитель запросов</title>
+	<style>
+		body {
+			padding: 30px;
+		}
+
+		.wwww {
+			width: 400px;
+		}
+
+		.hhhh {
+			height: 300px;
+		}
+
+		button {
+			padding: 10px;
+			width: 100px;
+			height: 40px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Отправитель запросов</h1>
+<hr>
+<br>
+
+<p>Url</p>
+<input type = "text" class = "wwww" id = "urlField" spellcheck = 'false' autocomplete = 'off'>
+
+<br>
+<br>
+
+<p>Body</p>
+<textarea class = "wwww hhhh" id = "bodyField" spellcheck = 'false' autocomplete = 'off'></textarea>
+
+<br>
+<br>
+<br>
+
+<button onclick = "getMethod()">GET</button>
+
+<br>
+<br>
+
+<button onclick = "postMethod()">POST</button>
+
+<script>
+	let urlField = null;
+	let bodyField = null;
+
+	window.onload = function() {
+		urlField = document.getElementById("urlField");
+		bodyField = document.getElementById("bodyField");
+	}
+
+	function getMethod() {
+		const url = urlField.value;
+
+		console.log("-------------------------------------------------");
+		console.log("Method: GET");
+		console.log("Url: " + url);
+
+		let r = new XMLHttpRequest();
+		r.open("GET", url, true);
+		r.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
+		r.send(null);
+		r.onreadystatechange = function() {
+			if(r.readyState === 4 && r.status === 200) {
+				alert(r.responseText + "");
+				console.log(r.responseText + "");
+			}
+		}
+	}
+
+	function postMethod() {
+		const url = urlField.value;
+		const body = bodyField.value;
+
+		console.log("-------------------------------------------------");
+		console.log("Method: POST");
+		console.log("Url: " + url);
+		console.log("Body: " + body);
+
+		let r = new XMLHttpRequest();
+		r.open("POST", url, true);
+		r.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+		r.send(body);
+		r.onreadystatechange = function() {
+			if(r.readyState === 4 && r.status === 200) {
+				alert(r.responseText + "");
+				console.log(r.responseText + "");
+			}
+		}
+	}
+</script>
+
+</body>
+</html>
