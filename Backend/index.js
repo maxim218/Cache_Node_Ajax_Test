@@ -3,11 +3,12 @@
 let express = require("express");
 let app = express();
 
-let cache = true;
+let cache = false;
 
 app.use(function(req, res, next) {
     console.log("==== Work with headers ====");
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     if(cache === false) {
         res.header("Cache-Control", "no-cache, no-store, must-revalidate");
     } else {
@@ -25,6 +26,20 @@ console.log("Server works on port " + port);
 console.log("   ");
 console.log("   ");
 
+app.post('/*', (request, response) => {
+    let bigString = "";
+    request.on('data', (data) => {
+        bigString += data;
+    }).on('end', () => {
+        const dataObj = JSON.parse(bigString);
+        const a = parseInt(dataObj.a);
+        const b = parseInt(dataObj.b);
+        const summa = a + b;
+        console.log("Summa (post): " + summa);
+        response.status(200);
+        response.end(summa.toString());
+    });
+});
 
 app.get('/*', (request, response) => {
     console.log("----------------------------------------");
