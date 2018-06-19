@@ -34,6 +34,13 @@ app.post('/*', (request, response) => {
     console.log("POST");
     console.log("Url: " + request.url);
 
+    //////////////////
+
+    // prohibit cache in POST queries
+    setCacheHeaders(response, false);
+
+    //////////////////
+
     let bigString = "";
     request.on('data', (data) => {
         bigString += data;
@@ -77,6 +84,13 @@ app.get('/*', (request, response) => {
 
     const operation = request.url.toString().split("/")[1];
     console.log("Operation: " + operation);
+
+    //////////////////
+
+    // cache GET for 120 seconds
+    setCacheHeaders(response, true);
+
+    //////////////////
 
     if(operation === "getstylefile") {
         console.log("Send CSS file");
